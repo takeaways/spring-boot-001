@@ -59,7 +59,7 @@ class PutController {
                 phoneNumber = "010-1111-2222",
             ))
 
-            this.userRequest = userList
+            user = userList
         }
     }
 }
