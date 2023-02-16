@@ -1,5 +1,6 @@
 package com.example.mvcget.model.http
 
+import com.example.mvcget.annotation.StringFormatDateTime
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import jakarta.validation.constraints.AssertTrue
@@ -33,18 +34,19 @@ data class UserRequest (
     @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")
     var phoneNumber:String? = null, //phone_number
 
-    var createdAt:String? = null // yyyy-mm-dd HH:mm:ss
+    @field:StringFormatDateTime(pattern = "yyyy-MM-dd HH:mm:ss", message = "패턴이 올바르지 않습니다.")
+    var createdAt:String? = null
 ){
 
-    @AssertTrue(message = "생성일자의 패턴은 yyyy-MM-dd HH:mm:ss")
-    private fun isValidCreatedAt():Boolean{
-        return try {
-            println("createdAt: $createdAt")
-            LocalDateTime.parse(createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            true
-        }catch (e:Exception){
-            false
-        }
-    }
+//    @AssertTrue(message = "생성일자의 패턴은 yyyy-MM-dd HH:mm:ss")
+//    private fun isValidCreatedAt():Boolean{
+//        return try {
+//            println("createdAt: $createdAt")
+//            LocalDateTime.parse(createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//            true
+//        }catch (e:Exception){
+//            false
+//        }
+//    }
 }
 
