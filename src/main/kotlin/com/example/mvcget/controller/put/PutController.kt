@@ -3,6 +3,10 @@ package com.example.mvcget.controller.put
 import com.example.mvcget.model.http.Result
 import com.example.mvcget.model.http.UserRequest
 import com.example.mvcget.model.http.UserResponse
+import jakarta.validation.Valid
+import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -28,8 +32,24 @@ class PutController {
         path = ["/put-mapping/object"]
     )
     fun putMappingObject(
-        @RequestBody userRequest: UserRequest
-    ): UserResponse {
+        @Valid
+        @RequestBody userRequest: UserRequest, bindingResult:BindingResult): Any {
+
+        println(userRequest)
+
+        if(bindingResult.hasErrors()){
+            // 500
+            val msg = StringBuilder()
+            bindingResult.allErrors.forEach {
+                val field = it as FieldError
+                val message = it.defaultMessage
+                msg.append("${field.field} : $message \n")
+            }
+
+            return ResponseEntity.badRequest().body(msg.toString())
+        }
+
+
         // 0. Response
         return UserResponse().apply {
             // 1. result
